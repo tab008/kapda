@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raise </title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f6;
+  }
+
+  /* HEADER – same as first page */
+  header {
+    background: #0b5ed7;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  header p {
+    margin: 3px 0 0;
+    font-size: 13px;
+  }
+
+  .container {
+    padding: 12px;
+  }
+
+  .form-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  }
+
+  label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 9px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    min-height: 70px;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 12px;
+    background: #198754;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Job Card – Request</h1>
+  <p>Online Job Card Request & Record</p>
+</header>
+
+<div class="container">
+  <div class="form-card">
+
+    <label>Job Card No</label>
+    <input type="text" id="job_no">
+
+    <label>Job Card Issued To</label>
+    <input type="text" id="issued_to">
+
+    <label>Date</label>
+    <input type="date" id="job_date">
+
+    <label>Train No</label>
+    <input type="text" id="train_no">
+
+    <label>Type of Job Card</label>
+    <select id="job_type">
+      <option>Preventive</option>
+      <option>Failure Related</option>
+      <option>T&C</option>
+      <option>CM</option>
+      <option>OPM</option>
+    </select>
+
+    <label>Description of Failure</label>
+    <textarea id="failure_desc"></textarea>
+
+    <label>Work Details</label>
+    <textarea id="work_details"></textarea>
+
+    <label>SIC Required</label>
+    <select id="sic_required">
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+
+    <button onclick="saveJobCard()">Save Job Card</button>
+  </div>
+</div>
+
+<script>
+function saveJobCard() {
+  const jobCard = {
+    jobNo: job_no.value,
+    issuedTo: issued_to.value,
+    date: job_date.value,
+    trainNo: train_no.value,
+    jobType: job_type.value,
+    failure: failure_desc.value,
+    work: work_details.value,
+    sic: sic_required.value
+  };
+
+  let data = JSON.parse(localStorage.getItem("jobCards")) || [];
+  data.push(jobCard);
+  localStorage.setItem("jobCards", JSON.stringify(data));
+
+  alert("✅ Job Card Saved Successfully");
+
+  document.querySelectorAll("input, textarea").forEach(e => e.value = "");
+}
+</script>
+
+</body>
+</html>

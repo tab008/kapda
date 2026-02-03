@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Card Records</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f6;
+  }
+
+  header {
+    background: #0b5ed7;
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-size: 13px;
+    text-align: left;
+  }
+
+  th {
+    background: #f1f5fb;
+    font-weight: 600;
+  }
+
+  .no-data {
+    text-align: center;
+    margin-top: 50px;
+    color: #777;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Job Card Records</h1>
+  <p>Saved Job Card Data</p>
+</header>
+
+<div class="container">
+  <table id="jobTable">
+    <thead>
+      <tr>
+        <th>Job Card Issued To</th>
+        <th>Date</th>
+        <th>Train No</th>
+        <th>Type of Job Card</th>
+        <th>Work Details</th>
+        <th>SIC Required</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <p class="no-data" id="noData" style="display:none;">
+    No Job Card Records Found
+  </p>
+</div>
+
+<script>
+  const data = JSON.parse(localStorage.getItem("jobCards")) || [];
+  const tbody = document.querySelector("#jobTable tbody");
+  const noData = document.getElementById("noData");
+
+  if (data.length === 0) {
+    document.getElementById("jobTable").style.display = "none";
+    noData.style.display = "block";
+  } else {
+    data.forEach(card => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${card.issuedTo}</td>
+        <td>${card.date}</td>
+        <td>${card.trainNo}</td>
+        <td>${card.jobType}</td>
+        <td>${card.work}</td>
+        <td>${card.sic}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+</script>
+
+</body>
+</html>

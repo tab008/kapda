@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Saved Maintenance Data</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui,Arial;
+  background:#f1f3f6;
+}
+header{
+  background:#0b5ed7;
+  color:#fff;
+  padding:12px;
+  text-align:center;
+}
+h1{margin:0;font-size:20px}
+
+.container{padding:10px}
+.card{
+  background:#fff;
+  padding:16px;
+  border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+th,td{
+  border:1px solid #ccc;
+  padding:6px;
+  text-align:center;
+}
+th{
+  background:#e9f0ff;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>SAVED MAINTENANCE DATA</h1>
+</header>
+
+<div class="container">
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Sr No</th>
+          <th>Train Set</th>
+          <th>Location</th>
+          <th>Date</th>
+          <th>Start Time</th>
+          <th>Expected Time</th>
+          <th>Work On Going</th>
+        </tr>
+      </thead>
+      <tbody id="dataBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+let entries = JSON.parse(localStorage.getItem("maintenanceData")) || [];
+
+/* ===== Keep only last 29 records ===== */
+if (entries.length > 29) {
+  entries = entries.slice(entries.length - 29);
+  localStorage.setItem("maintenanceData", JSON.stringify(entries));
+}
+
+const body = document.getElementById("dataBody");
+
+entries.forEach((e, i) => {
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td>${i + 1}</td>
+    <td>${e.trainSet}</td>
+    <td>${e.location || ""}</td>
+    <td>${e.date}</td>
+    <td>${e.startTime}</td>
+    <td>${e.endTime}</td>
+    <td>${e.work}</td>
+  `;
+  body.appendChild(row);
+});
+</script>
+
+</body>
+</html>

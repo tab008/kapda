@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Train Information – Entry</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui,Arial;
+  background:#f1f3f6;
+}
+header{
+  background:#0b5ed7;
+  color:#fff;
+  padding:12px;
+  text-align:center;
+}
+h1{margin:0;font-size:20px}
+p{margin:4px 0 0;font-size:13px}
+
+.container{padding:10px}
+.card{
+  background:#fff;
+  padding:16px;
+  border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+label{
+  display:block;
+  margin-top:12px;
+  font-weight:600;
+}
+select,input,textarea{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+textarea{min-height:70px}
+.row{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+button{
+  width:100%;
+  margin-top:15px;
+  padding:12px;
+  background:#0b5ed7;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>TRAIN INFORMATION</h1>
+  <p>Maintenance Entry Page</p>
+</header>
+
+<div class="container">
+  <div class="card">
+    <form id="maintenanceForm">
+
+      <!-- Train Set -->
+      <label>Train Set
+        <select id="trainSet" required>
+          <option value="">Select Train Set</option>
+          <script>
+            for(let i=1;i<=29;i++){
+              document.write(`<option value="${i}">${i}</option>`);
+            }
+          </script>
+        </select>
+      </label>
+
+      <!-- Location -->
+      <label>Location
+        <select id="location" required>
+          <option value="">Select Location</option>
+          <option>IBL-01OE</option><option>IBL-02OE</option><option>IBL-03OE</option>
+          <option>IBL-01DE</option><option>IBL-02DE</option><option>IBL-03DE</option>
+          <option>WBL-01</option><option>WBL-02</option><option>WBL-03</option>
+          <option>SBL-01OE</option><option>SBL-02OE</option><option>SBL-03OE</option>
+          <option>SBL-04OE</option><option>SBL-05OE</option><option>SBL-06OE</option>
+          <option>SBL-07OE</option><option>SBL-08OE</option><option>SBL-09OE</option>
+          <option>SBL-01DE</option><option>SBL-02DE</option><option>SBL-03DE</option>
+          <option>SBL-04DE</option><option>SBL-05DE</option><option>SBL-06DE</option>
+          <option>SBL-07DE</option><option>SBL-08DE</option><option>SBL-09DE</option>
+          <option>HCL</option><option>PWL</option><option>Test Track</option>
+        </select>
+      </label>
+
+      <!-- Date & Time -->
+      <div class="row">
+        <label>Start Date
+          <input type="date" id="startDate" required>
+        </label>
+
+        <label>Start Time
+          <input type="time" id="startTime" required>
+        </label>
+
+        <label>Expected End Time
+          <input type="time" id="expectedEndTime" required>
+        </label>
+      </div>
+
+      <!-- Work On Going -->
+      <label>Work On Going
+        <textarea id="workGoing" required></textarea>
+      </label>
+
+      <button type="submit">Save Entry</button>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ===== FIXED SAVE LOGIC ===== */
+let entries = JSON.parse(localStorage.getItem("maintenanceData")) || [];
+
+document.getElementById("maintenanceForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const data = {
+    trainSet: document.getElementById("trainSet").value,
+    location: document.getElementById("location").value,   // ✅ FIXED
+    date: document.getElementById("startDate").value,
+    startTime: document.getElementById("startTime").value,
+    endTime: document.getElementById("expectedEndTime").value,
+    work: document.getElementById("workGoing").value
+  };
+
+  entries.push(data);
+
+  localStorage.setItem("maintenanceData", JSON.stringify(entries));
+
+  alert("Data Saved Successfully");
+  this.reset();
+});
+</script>
+
+</body>
+</html>
